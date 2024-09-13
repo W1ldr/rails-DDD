@@ -1,16 +1,19 @@
 module Books
   module Repositories
     class BookRepository
-      def self.find(id)
-        Book.find(id)
-      end
-
+      
       def self.all
         Book.all
       end
+      
+      def self.create(attributes)
+        ::Book.create!(attributes)
+      end
 
-      def self.create(params)
-        Book.create!(params)
+      def self.find(id)
+        ::Book.find(id)
+      rescue ActiveRecord::RecordNotFound
+        raise StandardError, "Book not found"
       end
 
       def self.update(book, params)

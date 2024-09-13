@@ -6,7 +6,17 @@ module Books
       end
 
       def call
-        Books::Repositories::BookRepository.create(@params)
+        # Instantiate a new Book entity
+        book_entity = Books::Entities::Book.new(@params)
+
+        # Validate the book entity
+        unless book_entity.valid?
+          raise StandardError, "Invalid book data"
+        end
+
+        # Persist the entity using the repository
+        book = Books::Repositories::BookRepository.create(book_entity.to_h)
+        book
       end
     end
   end
